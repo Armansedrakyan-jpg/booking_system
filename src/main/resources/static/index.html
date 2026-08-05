@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyBooking ✈️</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0b1a24, #1d3b4a, #2b5a6a);
+            min-height: 100vh;
+            color: #fff;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        .glass-card {
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(16px);
+            border-radius: 32px;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+            padding: 24px;
+            margin-bottom: 24px;
+            transition: 0.3s;
+        }
+        .glass-card:hover {
+            background: rgba(255,255,255,0.09);
+        }
+        .table-glow {
+            background: rgba(0,0,0,0.3);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        .table-glow th {
+            background: rgba(0, 180, 216, 0.15);
+            border-bottom: 2px solid #00b4d8;
+            color: #b0e0f0;
+            font-weight: 600;
+        }
+        .table-glow td {
+            border-color: rgba(255,255,255,0.03);
+        }
+        .btn-air {
+            background: linear-gradient(145deg, #00b4d8, #0077b6);
+            border: none;
+            color: #fff;
+            font-weight: 600;
+            border-radius: 40px;
+            padding: 8px 28px;
+            transition: 0.3s;
+            box-shadow: 0 4px 14px rgba(0,180,216,0.3);
+        }
+        .btn-air:hover {
+            transform: scale(1.04);
+            background: linear-gradient(145deg, #48cae4, #00b4d8);
+            color: #fff;
+            box-shadow: 0 6px 20px rgba(0,180,216,0.5);
+        }
+        .btn-danger-glass {
+            background: rgba(255, 70, 70, 0.15);
+            border: 1px solid rgba(255, 70, 70, 0.3);
+            color: #ff8a8a;
+            border-radius: 40px;
+            padding: 4px 16px;
+            transition: 0.3s;
+        }
+        .btn-danger-glass:hover {
+            background: rgba(255, 70, 70, 0.3);
+            color: #fff;
+        }
+        .nav-tabs .nav-link {
+            color: #9ab8d0;
+            border: none;
+            font-size: 1.1rem;
+            padding: 12px 20px;
+            border-radius: 40px;
+            margin-right: 8px;
+        }
+        .nav-tabs .nav-link.active {
+            background: rgba(0, 180, 216, 0.15);
+            color: #00b4d8;
+            border-bottom: 3px solid #00b4d8;
+        }
+        .nav-tabs .nav-link:hover {
+            color: #fff;
+        }
+        .modal-content {
+            background: #1c2c3a;
+            color: #fff;
+            border-radius: 28px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .modal-header {
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .form-control, .form-select {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #fff;
+            border-radius: 40px;
+            padding: 12px 20px;
+        }
+        .form-control:focus, .form-select:focus {
+            background: rgba(255,255,255,0.1);
+            border-color: #00b4d8;
+            box-shadow: 0 0 0 0.25rem rgba(0,180,216,0.3);
+            color: #fff;
+        }
+        .form-control::placeholder {
+            color: rgba(255,255,255,0.3);
+        }
+        label {
+            font-weight: 500;
+            color: #b0d8e8;
+            margin-left: 6px;
+        }
+        .badge-status {
+            background: rgba(0,180,216,0.15);
+            color: #48cae4;
+            border-radius: 40px;
+            padding: 6px 20px;
+            font-weight: 500;
+        }
+        .footer {
+            border-top: 1px solid rgba(255,255,255,0.04);
+            margin-top: 40px;
+            padding-top: 20px;
+            text-align: center;
+            color: #7a9bb0;
+            font-size: 0.9rem;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 30px 0;
+            color: #7a9bb0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container py-4">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+        <div>
+            <h1 class="display-6 fw-bold">✈️ SkyBooking</h1>
+            <span class="text-muted" style="font-size: 0.95rem;">Учебная система бронирования</span>
+        </div>
+        <div>
+            <span class="badge-status">✨ Управление</span>
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+        <li class="nav-item">
+            <button class="nav-link active" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button">👤 Пользователи</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" id="bookables-tab" data-bs-toggle="tab" data-bs-target="#bookables" type="button">🛫 Объекты</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" id="bookings-tab" data-bs-toggle="tab" data-bs-target="#bookings" type="button">📋 Бронирования</button>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="myTabContent">
+
+        <!-- ===== Users Tab ===== -->
+        <div class="tab-pane fade show active" id="users" role="tabpanel">
+            <div class="glass-card">
+                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+                    <h3 class="mb-0">👤 Пользователи</h3>
+                    <button class="btn btn-air" data-bs-toggle="modal" data-bs-target="#createUserModal">➕ Добавить</button>
+                </div>
+                <div class="table-glow">
+                    <table class="table table-dark table-hover mb-0" id="usersTable">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Имя</th>
+                            <th>Логин</th>
+                            <th>Email</th>
+                        </tr>
+                        </thead>
+                        <tbody id="usersBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== Bookables Tab ===== -->
+        <div class="tab-pane fade" id="bookables" role="tabpanel">
+            <div class="glass-card">
+                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+                    <h3 class="mb-0">🛫 Объекты</h3>
+                    <button class="btn btn-air" data-bs-toggle="modal" data-bs-target="#createBookableModal">➕ Добавить</button>
+                </div>
+                <div class="table-glow">
+                    <table class="table table-dark table-hover mb-0" id="bookablesTable">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Название</th>
+                            <th>Тип</th>
+                        </tr>
+                        </thead>
+                        <tbody id="bookablesBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== Bookings Tab ===== -->
+        <div class="tab-pane fade" id="bookings" role="tabpanel">
+            <div class="glass-card">
+                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+                    <h3 class="mb-0">📋 Бронирования</h3>
+                    <button class="btn btn-air" data-bs-toggle="modal" data-bs-target="#createBookingModal">➕ Добавить</button>
+                </div>
+                <div class="table-glow">
+                    <table class="table table-dark table-hover mb-0" id="bookingsTable">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Статус</th>
+                            <th>Действие</th>
+                        </tr>
+                        </thead>
+                        <tbody id="bookingsBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        © 2026 SkyBooking · Учебный проект · Данные пока локальные
+    </div>
+</div>
+
+<!-- ===== Модалки ===== -->
+
+<!-- Create User Modal -->
+<div class="modal fade" id="createUserModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">👤 Создать пользователя</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createUserForm">
+                    <div class="mb-3">
+                        <label>Имя</label>
+                        <input type="text" class="form-control" id="userName" placeholder="Иван Петров">
+                    </div>
+                    <div class="mb-3">
+                        <label>Логин</label>
+                        <input type="text" class="form-control" id="userUsername" placeholder="ivan.petrov">
+                    </div>
+                    <div class="mb-3">
+                        <label>Email</label>
+                        <input type="email" class="form-control" id="userEmail" placeholder="ivan@example.com">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-air" id="saveUserBtn">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create Bookable Modal -->
+<div class="modal fade" id="createBookableModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">🛫 Создать объект</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createBookableForm">
+                    <div class="mb-3">
+                        <label>Название</label>
+                        <input type="text" class="form-control" id="bookableName" placeholder="Москва → Лондон">
+                    </div>
+                    <div class="mb-3">
+                        <label>Тип</label>
+                        <select class="form-select" id="bookableType">
+                            <option value="EcoClass">Эконом</option>
+                            <option value="BusinessClass">Бизнес</option>
+                            <option value="PremiumClass">Премиум</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-air" id="saveBookableBtn">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create Booking Modal -->
+<div class="modal fade" id="createBookingModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">📋 Создать бронирование</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createBookingForm">
+                    <div class="mb-3">
+                        <label>ID пользователя</label>
+                        <input type="text" class="form-control" id="bookingUserId" placeholder="Введи ID из таблицы пользователей">
+                    </div>
+                    <div class="mb-3">
+                        <label>ID объекта</label>
+                        <input type="text" class="form-control" id="bookingBookableId" placeholder="Введи ID из таблицы объектов">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-air" id="saveBookingBtn">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== Скрипты ===== -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // ===== Мок-данные =====
+    let users = [
+        { id: 'u1', name: 'Арман', username: 'arman', email: 'arman@mail.com' },
+        { id: 'u2', name: 'Анна', username: 'anna', email: 'anna@mail.com' },
+        { id: 'u3', name: 'Дмитрий', username: 'dmitry', email: 'dmitry@mail.com' },
+    ];
+
+    let bookables = [
+        { id: 'b1', name: 'Москва → Лондон', type: 'BusinessClass' },
+        { id: 'b2', name: 'Алматы → Дубай', type: 'EcoClass' },
+        { id: 'b3', name: 'Астана → Париж', type: 'PremiumClass' },
+    ];
+
+    let bookings = [
+        { id: 'bk1', userId: 'u1', bookableId: 'b1', status: 'Активно' },
+        { id: 'bk2', userId: 'u2', bookableId: 'b2', status: 'Подтверждено' },
+    ];
+
+    function generateId() {
+        return Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+    }
+
+    // ===== Отрисовка =====
+    function renderUsers() {
+        const tbody = document.getElementById('usersBody');
+        if (!users.length) {
+            tbody.innerHTML = `<tr><td colspan="4" class="empty-state">Нет пользователей</td></tr>`;
+            return;
+        }
+        tbody.innerHTML = users.map(u => `
+            <tr>
+                <td>${u.id}</td>
+                <td>${u.name}</td>
+                <td>${u.username}</td>
+                <td>${u.email}</td>
+            </tr>
+        `).join('');
+    }
+
+    function renderBookables() {
+        const tbody = document.getElementById('bookablesBody');
+        if (!bookables.length) {
+            tbody.innerHTML = `<tr><td colspan="3" class="empty-state">Нет объектов</td></tr>`;
+            return;
+        }
+        tbody.innerHTML = bookables.map(b => `
+            <tr>
+                <td>${b.id}</td>
+                <td>${b.name}</td>
+                <td>${b.type}</td>
+            </tr>
+        `).join('');
+    }
+
+    function renderBookings() {
+        const tbody = document.getElementById('bookingsBody');
+        if (!bookings.length) {
+            tbody.innerHTML = `<tr><td colspan="3" class="empty-state">Нет бронирований</td></tr>`;
+            return;
+        }
+        tbody.innerHTML = bookings.map(b => `
+            <tr>
+                <td>${b.id}</td>
+                <td>${b.status}</td>
+                <td>
+                    <button class="btn btn-danger-glass btn-sm" onclick="deleteBooking('${b.id}')">❌ Отменить</button>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    // ===== Удаление брони =====
+    window.deleteBooking = function(id) {
+        if (!confirm('Отменить бронирование?')) return;
+        bookings = bookings.filter(b => b.id !== id);
+        renderBookings();
+    };
+
+    // ===== Создание пользователя =====
+    document.getElementById('saveUserBtn').addEventListener('click', function() {
+        const name = document.getElementById('userName').value.trim();
+        const username = document.getElementById('userUsername').value.trim();
+        const email = document.getElementById('userEmail').value.trim();
+        if (!name || !username || !email) {
+            alert('Заполните все поля');
+            return;
+        }
+        users.push({ id: generateId(), name, username, email });
+        renderUsers();
+        document.getElementById('createUserModal').querySelector('.btn-close').click();
+        document.getElementById('userName').value = '';
+        document.getElementById('userUsername').value = '';
+        document.getElementById('userEmail').value = '';
+    });
+
+    // ===== Создание объекта =====
+    document.getElementById('saveBookableBtn').addEventListener('click', function() {
+        const name = document.getElementById('bookableName').value.trim();
+        const type = document.getElementById('bookableType').value;
+        if (!name) {
+            alert('Введите название объекта');
+            return;
+        }
+        bookables.push({ id: generateId(), name, type });
+        renderBookables();
+        document.getElementById('createBookableModal').querySelector('.btn-close').click();
+        document.getElementById('bookableName').value = '';
+    });
+
+    // ===== Создание бронирования =====
+    document.getElementById('saveBookingBtn').addEventListener('click', function() {
+        const userId = document.getElementById('bookingUserId').value.trim();
+        const bookableId = document.getElementById('bookingBookableId').value.trim();
+        if (!userId || !bookableId) {
+            alert('Заполните оба поля');
+            return;
+        }
+        const userExists = users.some(u => u.id === userId);
+        const bookableExists = bookables.some(b => b.id === bookableId);
+        if (!userExists || !bookableExists) {
+            alert('Пользователь или объект с таким ID не найден. Проверьте ID.');
+            return;
+        }
+        bookings.push({
+            id: generateId(),
+            userId,
+            bookableId,
+            status: 'Новое'
+        });
+        renderBookings();
+        document.getElementById('createBookingModal').querySelector('.btn-close').click();
+        document.getElementById('bookingUserId').value = '';
+        document.getElementById('bookingBookableId').value = '';
+    });
+
+    // ===== Первая отрисовка =====
+    renderUsers();
+    renderBookables();
+    renderBookings();
+
+    // ===== Перерисовка при переключении вкладок =====
+    document.getElementById('users-tab').addEventListener('shown.bs.tab', renderUsers);
+    document.getElementById('bookables-tab').addEventListener('shown.bs.tab', renderBookables);
+    document.getElementById('bookings-tab').addEventListener('shown.bs.tab', renderBookings);
+</script>
+
+</body>
+</html>
