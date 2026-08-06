@@ -1,487 +1,611 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkyBooking ✈️</title>
-    <!-- Bootstrap 5 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background: linear-gradient(135deg, #0b1a24, #1d3b4a, #2b5a6a);
-            min-height: 100vh;
-            color: #fff;
-            font-family: 'Segoe UI', system-ui, sans-serif;
-        }
-        .glass-card {
-            background: rgba(255,255,255,0.06);
-            backdrop-filter: blur(16px);
-            border-radius: 32px;
-            border: 1px solid rgba(255,255,255,0.08);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.6);
-            padding: 24px;
-            margin-bottom: 24px;
-            transition: 0.3s;
-        }
-        .glass-card:hover {
-            background: rgba(255,255,255,0.09);
-        }
-        .table-glow {
-            background: rgba(0,0,0,0.3);
-            border-radius: 20px;
-            overflow: hidden;
-        }
-        .table-glow th {
-            background: rgba(0, 180, 216, 0.15);
-            border-bottom: 2px solid #00b4d8;
-            color: #b0e0f0;
-            font-weight: 600;
-        }
-        .table-glow td {
-            border-color: rgba(255,255,255,0.03);
-        }
-        .btn-air {
-            background: linear-gradient(145deg, #00b4d8, #0077b6);
-            border: none;
-            color: #fff;
-            font-weight: 600;
-            border-radius: 40px;
-            padding: 8px 28px;
-            transition: 0.3s;
-            box-shadow: 0 4px 14px rgba(0,180,216,0.3);
-        }
-        .btn-air:hover {
-            transform: scale(1.04);
-            background: linear-gradient(145deg, #48cae4, #00b4d8);
-            color: #fff;
-            box-shadow: 0 6px 20px rgba(0,180,216,0.5);
-        }
-        .btn-danger-glass {
-            background: rgba(255, 70, 70, 0.15);
-            border: 1px solid rgba(255, 70, 70, 0.3);
-            color: #ff8a8a;
-            border-radius: 40px;
-            padding: 4px 16px;
-            transition: 0.3s;
-        }
-        .btn-danger-glass:hover {
-            background: rgba(255, 70, 70, 0.3);
-            color: #fff;
-        }
-        .nav-tabs .nav-link {
-            color: #9ab8d0;
-            border: none;
-            font-size: 1.1rem;
-            padding: 12px 20px;
-            border-radius: 40px;
-            margin-right: 8px;
-        }
-        .nav-tabs .nav-link.active {
-            background: rgba(0, 180, 216, 0.15);
-            color: #00b4d8;
-            border-bottom: 3px solid #00b4d8;
-        }
-        .nav-tabs .nav-link:hover {
-            color: #fff;
-        }
-        .modal-content {
-            background: #1c2c3a;
-            color: #fff;
-            border-radius: 28px;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-        .modal-header {
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        .form-control, .form-select {
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: #fff;
-            border-radius: 40px;
-            padding: 12px 20px;
-        }
-        .form-control:focus, .form-select:focus {
-            background: rgba(255,255,255,0.1);
-            border-color: #00b4d8;
-            box-shadow: 0 0 0 0.25rem rgba(0,180,216,0.3);
-            color: #fff;
-        }
-        .form-control::placeholder {
-            color: rgba(255,255,255,0.3);
-        }
-        label {
-            font-weight: 500;
-            color: #b0d8e8;
-            margin-left: 6px;
-        }
-        .badge-status {
-            background: rgba(0,180,216,0.15);
-            color: #48cae4;
-            border-radius: 40px;
-            padding: 6px 20px;
-            font-weight: 500;
-        }
-        .footer {
-            border-top: 1px solid rgba(255,255,255,0.04);
-            margin-top: 40px;
-            padding-top: 20px;
-            text-align: center;
-            color: #7a9bb0;
-            font-size: 0.9rem;
-        }
-        .empty-state {
-            text-align: center;
-            padding: 30px 0;
-            color: #7a9bb0;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SkyBooking · Control Tower</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#05060c;
+    --deep:#0a0e1a;
+    --panel:rgba(18,24,42,0.55);
+    --panel-solid:#121a2e;
+    --line:rgba(140,160,220,0.14);
+    --line-bright:rgba(140,160,220,0.3);
+    --ink:#eef1fb;
+    --ink-dim:#8891b3;
+    --ink-faint:#4d5578;
+    --teal:#3ee8c8;
+    --violet:#9d7bff;
+    --gold:#ffb648;
+    --red:#ff6a5c;
+    --grad-aurora:linear-gradient(120deg,var(--teal),var(--violet) 55%,var(--gold));
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; min-height:100vh; color:var(--ink);
+    font-family:'Inter',sans-serif;
+    background:var(--void);
+    overflow-x:hidden;
+  }
+  ::selection{background:rgba(158,123,255,.35);}
+
+  /* ---------- animated backdrop ---------- */
+  .sky{position:fixed; inset:0; z-index:0; overflow:hidden;}
+  .sky::before{
+    content:''; position:absolute; inset:-20%;
+    background:
+      radial-gradient(700px 500px at 20% 10%, rgba(62,232,200,0.10), transparent 60%),
+      radial-gradient(800px 600px at 85% 0%, rgba(157,123,255,0.12), transparent 55%),
+      radial-gradient(600px 500px at 50% 100%, rgba(255,182,72,0.06), transparent 60%);
+    animation: drift 26s ease-in-out infinite alternate;
+  }
+  @keyframes drift{ from{transform:translate(0,0) scale(1);} to{transform:translate(-3%,2%) scale(1.05);} }
+  .stars{position:absolute; inset:0; background-image:
+      radial-gradient(1.5px 1.5px at 20% 30%, #fff, transparent),
+      radial-gradient(1px 1px at 70% 65%, #fff, transparent),
+      radial-gradient(1px 1px at 85% 20%, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 45% 80%, #fff, transparent),
+      radial-gradient(1px 1px at 60% 10%, #fff, transparent),
+      radial-gradient(1px 1px at 10% 70%, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 92% 55%, #fff, transparent);
+    opacity:.35;
+  }
+
+  .wrap{position:relative; z-index:1; max-width:1180px; margin:0 auto; padding:0 32px 100px;}
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:28px 0; gap:16px; flex-wrap:wrap;
+  }
+  .brand{display:flex; align-items:center; gap:12px;}
+  .brand-mark{
+    width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center;
+    background:var(--grad-aurora); font-size:17px; transform:rotate(-8deg);
+    box-shadow:0 0 24px -4px rgba(157,123,255,.6);
+  }
+  .brand-name{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:17px; letter-spacing:-.01em;}
+  .brand-sub{font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ink-faint);}
+  .live{
+    display:flex; align-items:center; gap:8px; font-family:'JetBrains Mono',monospace; font-size:11.5px;
+    color:var(--ink-dim); padding:8px 14px; border:1px solid var(--line); border-radius:999px; background:var(--panel);
+    backdrop-filter:blur(12px);
+  }
+  .pulse{width:7px; height:7px; border-radius:50%; background:var(--ink-faint); position:relative;}
+  .pulse.on{background:var(--teal);}
+  .pulse.on::after{
+    content:''; position:absolute; inset:-5px; border-radius:50%; border:1px solid var(--teal);
+    animation:ping 1.8s ease-out infinite;
+  }
+  .pulse.off{background:var(--red);}
+  @keyframes ping{ from{transform:scale(.5); opacity:.9;} to{transform:scale(2.2); opacity:0;} }
+
+  /* ---------- HERO / radar ---------- */
+  .hero{
+    display:grid; grid-template-columns:1fr 320px; gap:40px; align-items:center;
+    padding:40px 0 56px; border-bottom:1px solid var(--line);
+  }
+  @media(max-width:860px){ .hero{grid-template-columns:1fr;} }
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace; font-size:11.5px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--teal); display:flex; align-items:center; gap:8px; margin-bottom:18px;
+  }
+  .eyebrow::before{content:''; width:16px; height:1px; background:var(--teal);}
+  .hero h1{
+    font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(34px,5vw,54px);
+    line-height:1.04; letter-spacing:-.02em; margin:0 0 18px;
+  }
+  .hero h1 .g{background:var(--grad-aurora); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .hero p{color:var(--ink-dim); font-size:15px; max-width:480px; line-height:1.65; margin:0 0 26px;}
+  .stat-row{display:flex; gap:28px; flex-wrap:wrap;}
+  .stat{font-family:'Space Grotesk',sans-serif;}
+  .stat .num{font-size:30px; font-weight:700; line-height:1;}
+  .stat .lab{font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ink-faint); margin-top:6px; text-transform:uppercase; letter-spacing:.06em;}
+
+  /* radar */
+  .radar-wrap{display:flex; align-items:center; justify-content:center;}
+  .radar{
+    width:280px; height:280px; border-radius:50%; position:relative;
+    background:radial-gradient(circle at center, rgba(62,232,200,0.06), transparent 70%);
+    border:1px solid var(--line);
+  }
+  .radar .ring{position:absolute; border:1px solid var(--line); border-radius:50%;}
+  .radar .r1{inset:20%;} .radar .r2{inset:40%;} .radar .r3{inset:60%;}
+  .radar .cross{position:absolute; background:var(--line);}
+  .radar .cross.h{left:0; right:0; top:50%; height:1px;}
+  .radar .cross.v{top:0; bottom:0; left:50%; width:1px;}
+  .radar .sweep{
+    position:absolute; inset:0; border-radius:50%;
+    background:conic-gradient(from 0deg, rgba(62,232,200,.55), transparent 26%);
+    animation:spin 4s linear infinite;
+    mix-blend-mode:screen;
+  }
+  @keyframes spin{ to{transform:rotate(360deg);} }
+  .radar .blip{
+    position:absolute; width:7px; height:7px; border-radius:50%; background:var(--gold);
+    box-shadow:0 0 10px 2px var(--gold); transform:translate(-50%,-50%);
+  }
+  .radar .core{
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--ink-faint); text-align:center; letter-spacing:.05em;
+  }
+
+  /* ---------- tabs ---------- */
+  .tabs{display:flex; gap:6px; padding:36px 0 24px; flex-wrap:wrap;}
+  .tab{
+    font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:13.5px;
+    background:var(--panel); border:1px solid var(--line); color:var(--ink-dim);
+    padding:11px 18px; border-radius:11px; cursor:pointer; display:flex; align-items:center; gap:9px;
+    backdrop-filter:blur(10px); transition:.18s ease;
+  }
+  .tab:hover{border-color:var(--line-bright); color:var(--ink);}
+  .tab.active{color:var(--void); background:var(--grad-aurora); border-color:transparent;}
+  .tab .n{
+    font-family:'JetBrains Mono',monospace; font-size:10.5px; background:rgba(255,255,255,.15);
+    padding:1px 7px; border-radius:6px;
+  }
+  .tab.active .n{background:rgba(5,6,12,.25);}
+
+  .panel{display:none;}
+  .panel.active{display:block; animation:rise .35s ease;}
+  @keyframes rise{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+
+  .layout{display:grid; grid-template-columns:360px 1fr; gap:24px; align-items:start;}
+  @media(max-width:860px){ .layout{grid-template-columns:1fr;} }
+
+  /* ---------- glass card ---------- */
+  .glass{
+    background:var(--panel); border:1px solid var(--line); border-radius:18px;
+    backdrop-filter:blur(16px); padding:26px; position:relative; overflow:hidden;
+  }
+  .glass::before{
+    content:''; position:absolute; top:-1px; left:20px; right:20px; height:1px;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);
+  }
+  .glass h2{
+    font-family:'Space Grotesk',sans-serif; font-size:16px; margin:0 0 20px;
+    display:flex; align-items:center; gap:9px;
+  }
+  .glass h2 .ico{
+    width:26px; height:26px; border-radius:8px; background:var(--grad-aurora);
+    display:flex; align-items:center; justify-content:center; font-size:13px;
+  }
+
+  label{
+    display:block; font-size:10.5px; text-transform:uppercase; letter-spacing:.08em;
+    color:var(--ink-faint); margin:16px 0 7px; font-family:'JetBrains Mono',monospace;
+  }
+  label:first-of-type{margin-top:0;}
+  input[type=text], input[type=email], input[type=number], select{
+    width:100%; background:rgba(255,255,255,.03); border:1px solid var(--line);
+    color:var(--ink); padding:11px 13px; border-radius:10px; font-size:14px;
+    font-family:'Inter',sans-serif; outline:none; transition:.15s ease;
+  }
+  input::placeholder{color:var(--ink-faint);}
+  input:focus, select:focus{border-color:var(--teal); box-shadow:0 0 0 3px rgba(62,232,200,.12);}
+  select option{background:var(--panel-solid);}
+  .checkline{display:flex; align-items:center; gap:9px; margin-top:13px;}
+  .checkline input{width:16px; height:16px; accent-color:var(--teal);}
+  .checkline label{margin:0; text-transform:none; letter-spacing:0; font-family:'Inter',sans-serif; font-size:13px; color:var(--ink-dim);}
+
+  button.submit{
+    margin-top:22px; width:100%; padding:13px; border:none; border-radius:10px;
+    background:var(--grad-aurora); background-size:200% auto; color:#05060c; font-weight:700; font-size:14px;
+    font-family:'Space Grotesk',sans-serif; cursor:pointer; transition:.2s ease;
+  }
+  button.submit:hover{background-position:right center; box-shadow:0 10px 30px -8px rgba(157,123,255,.55);}
+  button.submit:active{transform:scale(.98);}
+
+  .feedback{
+    margin-top:14px; padding:11px 13px; border-radius:10px; font-size:12px;
+    font-family:'JetBrains Mono',monospace; display:none; line-height:1.55; word-break:break-word;
+  }
+  .feedback.ok{display:block; background:rgba(62,232,200,.09); border:1px solid rgba(62,232,200,.3); color:var(--teal);}
+  .feedback.err{display:block; background:rgba(255,106,92,.09); border:1px solid rgba(255,106,92,.35); color:#ff9a8c;}
+
+  .list-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;}
+  .list-head h2{font-family:'Space Grotesk',sans-serif; font-size:16px; margin:0;}
+  .refresh{
+    background:var(--panel); border:1px solid var(--line); color:var(--ink-dim);
+    padding:8px 14px; border-radius:9px; font-size:12px; cursor:pointer;
+    font-family:'JetBrains Mono',monospace; display:flex; align-items:center; gap:6px; transition:.15s;
+  }
+  .refresh:hover{border-color:var(--teal); color:var(--teal);}
+
+  .empty{
+    border:1px dashed var(--line); border-radius:16px; padding:52px 20px;
+    text-align:center; color:var(--ink-faint); font-size:13px;
+  }
+  .empty b{color:var(--ink-dim); display:block; font-family:'Space Grotesk',sans-serif; font-size:16px; margin-bottom:7px;}
+
+  .stub-list{display:flex; flex-direction:column; gap:12px;}
+  .stub{
+    display:grid; grid-template-columns:auto 1fr auto; align-items:stretch;
+    background:var(--panel); border:1px solid var(--line); border-radius:16px;
+    overflow:hidden; backdrop-filter:blur(14px); transition:.2s ease;
+  }
+  .stub:hover{border-color:var(--line-bright); transform:translateY(-1px);}
+  .stub-id{
+    writing-mode:vertical-rl; text-orientation:mixed;
+    font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--ink-faint);
+    padding:16px 9px; background:rgba(255,255,255,.02); border-right:1px dashed var(--line);
+    display:flex; align-items:center; justify-content:center; letter-spacing:.05em;
+  }
+  .stub-body{padding:17px 19px;}
+  .stub-title{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:15px; margin-bottom:7px;}
+  .stub-meta{display:flex; gap:16px; flex-wrap:wrap; font-size:12px; color:var(--ink-faint); font-family:'JetBrains Mono',monospace;}
+  .stub-meta span b{color:var(--ink-dim); font-weight:500;}
+  .stub-side{
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:9px;
+    padding:12px 18px; min-width:118px; background:rgba(255,255,255,.02); border-left:1px dashed var(--line);
+  }
+  .badge{
+    font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:5px 11px; border-radius:999px;
+    text-transform:uppercase; letter-spacing:.05em;
+  }
+  .badge.status-0{background:rgba(62,232,200,.12); color:var(--teal); border:1px solid rgba(62,232,200,.3);}
+  .badge.status-1{background:rgba(255,106,92,.12); color:#ff9a8c; border:1px solid rgba(255,106,92,.3);}
+  .badge.status-2{background:rgba(255,182,72,.12); color:var(--gold); border:1px solid rgba(255,182,72,.3);}
+  .cancel-btn{
+    background:none; border:1px solid var(--line); color:var(--ink-faint);
+    font-size:11px; padding:6px 11px; border-radius:7px; cursor:pointer;
+    font-family:'JetBrains Mono',monospace; transition:.15s;
+  }
+  .cancel-btn:hover{border-color:var(--red); color:#ff9a8c;}
+
+  footer{
+    margin-top:56px; padding-top:22px; border-top:1px solid var(--line);
+    color:var(--ink-faint); font-size:11.5px; font-family:'JetBrains Mono',monospace;
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
+  }
+
+  /* toasts */
+  .toasts{position:fixed; bottom:24px; right:24px; z-index:50; display:flex; flex-direction:column; gap:10px;}
+  .toast{
+    font-family:'JetBrains Mono',monospace; font-size:12.5px; padding:13px 16px; border-radius:12px;
+    background:var(--panel-solid); border:1px solid var(--line); backdrop-filter:blur(14px);
+    box-shadow:0 12px 30px -10px rgba(0,0,0,.6); animation:toastIn .25s ease; max-width:320px;
+  }
+  .toast.ok{border-color:rgba(62,232,200,.4); color:var(--teal);}
+  .toast.err{border-color:rgba(255,106,92,.4); color:#ff9a8c;}
+  @keyframes toastIn{ from{opacity:0; transform:translateX(30px);} to{opacity:1; transform:translateX(0);} }
+</style>
 </head>
 <body>
 
-<div class="container py-4">
+<div class="sky"><div class="stars"></div></div>
 
-    <!-- Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
-        <div>
-            <h1 class="display-6 fw-bold">✈️ SkyBooking</h1>
-            <span class="text-muted" style="font-size: 0.95rem;">Учебная система бронирования</span>
-        </div>
-        <div>
-            <span class="badge-status">✨ Управление</span>
-        </div>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-mark">✈</div>
+      <div>
+        <div class="brand-name">SkyBooking</div>
+        <div class="brand-sub">control tower · booking-system2</div>
+      </div>
     </div>
+    <div class="live"><span class="pulse" id="pulse"></span><span id="pulseLabel">проверка связи…</span></div>
+  </div>
 
-    <!-- Tabs -->
-    <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
-        <li class="nav-item">
-            <button class="nav-link active" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button">👤 Пользователи</button>
-        </li>
-        <li class="nav-item">
-            <button class="nav-link" id="bookables-tab" data-bs-toggle="tab" data-bs-target="#bookables" type="button">🛫 Объекты</button>
-        </li>
-        <li class="nav-item">
-            <button class="nav-link" id="bookings-tab" data-bs-toggle="tab" data-bs-target="#bookings" type="button">📋 Бронирования</button>
-        </li>
-    </ul>
-
-    <div class="tab-content" id="myTabContent">
-
-        <!-- ===== Users Tab ===== -->
-        <div class="tab-pane fade show active" id="users" role="tabpanel">
-            <div class="glass-card">
-                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
-                    <h3 class="mb-0">👤 Пользователи</h3>
-                    <button class="btn btn-air" data-bs-toggle="modal" data-bs-target="#createUserModal">➕ Добавить</button>
-                </div>
-                <div class="table-glow">
-                    <table class="table table-dark table-hover mb-0" id="usersTable">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Имя</th>
-                            <th>Логин</th>
-                            <th>Email</th>
-                        </tr>
-                        </thead>
-                        <tbody id="usersBody"></tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- ===== Bookables Tab ===== -->
-        <div class="tab-pane fade" id="bookables" role="tabpanel">
-            <div class="glass-card">
-                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
-                    <h3 class="mb-0">🛫 Объекты</h3>
-                    <button class="btn btn-air" data-bs-toggle="modal" data-bs-target="#createBookableModal">➕ Добавить</button>
-                </div>
-                <div class="table-glow">
-                    <table class="table table-dark table-hover mb-0" id="bookablesTable">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Название</th>
-                            <th>Тип</th>
-                        </tr>
-                        </thead>
-                        <tbody id="bookablesBody"></tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- ===== Bookings Tab ===== -->
-        <div class="tab-pane fade" id="bookings" role="tabpanel">
-            <div class="glass-card">
-                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
-                    <h3 class="mb-0">📋 Бронирования</h3>
-                    <button class="btn btn-air" data-bs-toggle="modal" data-bs-target="#createBookingModal">➕ Добавить</button>
-                </div>
-                <div class="table-glow">
-                    <table class="table table-dark table-hover mb-0" id="bookingsTable">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Статус</th>
-                            <th>Действие</th>
-                        </tr>
-                        </thead>
-                        <tbody id="bookingsBody"></tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
+  <div class="hero">
+    <div>
+      <div class="eyebrow">live api console</div>
+      <h1>Диспетчерская<br><span class="g">бронирований в реальном времени</span></h1>
+      <p>Каждое действие здесь — настоящий HTTP-запрос к твоему Spring Boot приложению в Docker. Ничего не подделано, всё видно на радаре справа.</p>
+      <div class="stat-row">
+        <div class="stat"><div class="num" id="statUsers">0</div><div class="lab">Пользователи</div></div>
+        <div class="stat"><div class="num" id="statBookable">0</div><div class="lab">Объекты</div></div>
+        <div class="stat"><div class="num" id="statBookings">0</div><div class="lab">Бронирования</div></div>
+      </div>
     </div>
-
-    <div class="footer">
-        © 2026 SkyBooking · Учебный проект · Данные пока локальные
+    <div class="radar-wrap">
+      <div class="radar" id="radar">
+        <div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div>
+        <div class="cross h"></div><div class="cross v"></div>
+        <div class="sweep"></div>
+        <div class="core">RADAR<br>booking-system2</div>
+      </div>
     </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="users">👤 Пользователи <span class="n" id="countUsers">0</span></button>
+    <button class="tab" data-tab="bookable">🛫 Объекты <span class="n" id="countBookable">0</span></button>
+    <button class="tab" data-tab="bookings">🎫 Бронирования <span class="n" id="countBookings">0</span></button>
+  </div>
+
+  <section class="panel active" id="panel-users">
+    <div class="layout">
+      <div class="glass">
+        <h2><span class="ico">+</span>Новый пользователь</h2>
+        <form id="form-user">
+          <label>Тип</label>
+          <select id="u-type">
+            <option value="New_Person">New_Person</option>
+            <option value="Active_Person">Active_Person</option>
+            <option value="VIP_Person">VIP_Person</option>
+          </select>
+          <label>Баланс</label>
+          <input type="number" id="u-balance" value="1000" min="0" required>
+          <label>Email</label>
+          <input type="email" id="u-email" placeholder="name@mail.com" required>
+          <button class="submit" type="submit">Создать пользователя</button>
+        </form>
+        <div class="feedback" id="fb-user"></div>
+      </div>
+      <div>
+        <div class="list-head"><h2>Созданные в этой сессии</h2></div>
+        <div id="list-users"><div class="empty"><b>Пока пусто</b>POST /user ещё не вызывался</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="panel-bookable">
+    <div class="layout">
+      <div class="glass">
+        <h2><span class="ico">+</span>Новый объект</h2>
+        <form id="form-bookable">
+          <label>Класс</label>
+          <select id="b-type">
+            <option value="Eco_class">Eco_class</option>
+            <option value="Business_class">Business_class</option>
+            <option value="Premium_class">Premium_class</option>
+          </select>
+          <div class="checkline"><input type="checkbox" id="b-baggage"><label for="b-baggage">С багажом</label></div>
+          <div class="checkline"><input type="checkbox" id="b-pet"><label for="b-pet">С питомцем</label></div>
+          <button class="submit" type="submit">Создать объект</button>
+        </form>
+        <div class="feedback" id="fb-bookable"></div>
+      </div>
+      <div>
+        <div class="list-head"><h2>Созданные в этой сессии</h2></div>
+        <div id="list-bookable"><div class="empty"><b>Пока пусто</b>POST /bookable ещё не вызывался</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="panel-bookings">
+    <div class="layout">
+      <div class="glass">
+        <h2><span class="ico">+</span>Новая бронь</h2>
+        <form id="form-booking">
+          <label>Пользователь</label>
+          <select id="bk-user"><option value="">— выбери из списка —</option></select>
+          <label>Объект</label>
+          <select id="bk-bookable"><option value="">— выбери из списка —</option></select>
+          <button class="submit" type="submit">Создать бронь</button>
+        </form>
+        <div class="feedback" id="fb-booking"></div>
+      </div>
+      <div>
+        <div class="list-head">
+          <h2>Из GET /booking</h2>
+          <button class="refresh" id="refresh-bookings">↻ обновить</button>
+        </div>
+        <div id="list-bookings"><div class="empty"><b>Загрузка…</b></div></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 SkyBooking · учебный проект</span>
+    <span>API: same-origin · порт 8080</span>
+  </footer>
+
 </div>
 
-<!-- ===== Модалки ===== -->
+<div class="toasts" id="toasts"></div>
 
-<!-- Create User Modal -->
-<div class="modal fade" id="createUserModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">👤 Создать пользователя</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <form id="createUserForm">
-                    <div class="mb-3">
-                        <label>Имя</label>
-                        <input type="text" class="form-control" id="userName" placeholder="Иван Петров">
-                    </div>
-                    <div class="mb-3">
-                        <label>Логин</label>
-                        <input type="text" class="form-control" id="userUsername" placeholder="ivan.petrov">
-                    </div>
-                    <div class="mb-3">
-                        <label>Email</label>
-                        <input type="email" class="form-control" id="userEmail" placeholder="ivan@example.com">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                <button type="button" class="btn btn-air" id="saveUserBtn">Сохранить</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Create Bookable Modal -->
-<div class="modal fade" id="createBookableModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">🛫 Создать объект</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <form id="createBookableForm">
-                    <div class="mb-3">
-                        <label>Название</label>
-                        <input type="text" class="form-control" id="bookableName" placeholder="Москва → Лондон">
-                    </div>
-                    <div class="mb-3">
-                        <label>Тип</label>
-                        <select class="form-select" id="bookableType">
-                            <option value="EcoClass">Эконом</option>
-                            <option value="BusinessClass">Бизнес</option>
-                            <option value="PremiumClass">Премиум</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                <button type="button" class="btn btn-air" id="saveBookableBtn">Сохранить</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Create Booking Modal -->
-<div class="modal fade" id="createBookingModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">📋 Создать бронирование</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <form id="createBookingForm">
-                    <div class="mb-3">
-                        <label>ID пользователя</label>
-                        <input type="text" class="form-control" id="bookingUserId" placeholder="Введи ID из таблицы пользователей">
-                    </div>
-                    <div class="mb-3">
-                        <label>ID объекта</label>
-                        <input type="text" class="form-control" id="bookingBookableId" placeholder="Введи ID из таблицы объектов">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                <button type="button" class="btn btn-air" id="saveBookingBtn">Сохранить</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- ===== Скрипты ===== -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // ===== Мок-данные =====
-    let users = [
-        { id: 'u1', name: 'Арман', username: 'arman', email: 'arman@mail.com' },
-        { id: 'u2', name: 'Анна', username: 'anna', email: 'anna@mail.com' },
-        { id: 'u3', name: 'Дмитрий', username: 'dmitry', email: 'dmitry@mail.com' },
-    ];
+const API_BASE = '';
+const state = { users: [], bookables: [], bookings: [] };
 
-    let bookables = [
-        { id: 'b1', name: 'Москва → Лондон', type: 'BusinessClass' },
-        { id: 'b2', name: 'Алматы → Дубай', type: 'EcoClass' },
-        { id: 'b3', name: 'Астана → Париж', type: 'PremiumClass' },
-    ];
+function el(html){ const t=document.createElement('template'); t.innerHTML=html.trim(); return t.content.firstChild; }
+function short(id){ return id ? (String(id).length>10 ? String(id).slice(0,8)+'…' : id) : '—'; }
 
-    let bookings = [
-        { id: 'bk1', userId: 'u1', bookableId: 'b1', status: 'Активно' },
-        { id: 'bk2', userId: 'u2', bookableId: 'b2', status: 'Подтверждено' },
-    ];
+function toast(ok, msg){
+  const box = document.getElementById('toasts');
+  const t = el(`<div class="toast ${ok?'ok':'err'}">${ok?'✓':'✕'} ${msg}</div>`);
+  box.appendChild(t);
+  setTimeout(()=>{ t.style.opacity='0'; t.style.transition='.3s'; setTimeout(()=>t.remove(),300); }, 3500);
+}
 
-    function generateId() {
-        return Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-    }
+async function api(path, opts={}){
+  const res = await fetch(API_BASE + path, { headers:{'Content-Type':'application/json'}, ...opts });
+  const text = await res.text();
+  let data = null;
+  try { data = text ? JSON.parse(text) : null; } catch(e){ data = text; }
+  if(!res.ok){
+    const msg = (data && typeof data === 'object') ? JSON.stringify(data) : (data || `HTTP ${res.status}`);
+    const err = new Error(msg); err.status = res.status; throw err;
+  }
+  return data;
+}
 
-    // ===== Отрисовка =====
-    function renderUsers() {
-        const tbody = document.getElementById('usersBody');
-        if (!users.length) {
-            tbody.innerHTML = `<tr><td colspan="4" class="empty-state">Нет пользователей</td></tr>`;
-            return;
-        }
-        tbody.innerHTML = users.map(u => `
-            <tr>
-                <td>${u.id}</td>
-                <td>${u.name}</td>
-                <td>${u.username}</td>
-                <td>${u.email}</td>
-            </tr>
-        `).join('');
-    }
+function showFeedback(id, ok, msg){
+  const box = document.getElementById(id);
+  box.className = 'feedback ' + (ok ? 'ok' : 'err');
+  box.textContent = (ok ? '✓ ' : '✕ ') + msg;
+  toast(ok, msg.length>60 ? msg.slice(0,60)+'…' : msg);
+}
 
-    function renderBookables() {
-        const tbody = document.getElementById('bookablesBody');
-        if (!bookables.length) {
-            tbody.innerHTML = `<tr><td colspan="3" class="empty-state">Нет объектов</td></tr>`;
-            return;
-        }
-        tbody.innerHTML = bookables.map(b => `
-            <tr>
-                <td>${b.id}</td>
-                <td>${b.name}</td>
-                <td>${b.type}</td>
-            </tr>
-        `).join('');
-    }
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('panel-'+tab.dataset.tab).classList.add('active');
+  });
+});
 
-    function renderBookings() {
-        const tbody = document.getElementById('bookingsBody');
-        if (!bookings.length) {
-            tbody.innerHTML = `<tr><td colspan="3" class="empty-state">Нет бронирований</td></tr>`;
-            return;
-        }
-        tbody.innerHTML = bookings.map(b => `
-            <tr>
-                <td>${b.id}</td>
-                <td>${b.status}</td>
-                <td>
-                    <button class="btn btn-danger-glass btn-sm" onclick="deleteBooking('${b.id}')">❌ Отменить</button>
-                </td>
-            </tr>
-        `).join('');
-    }
+function updateStats(){
+  document.getElementById('statUsers').textContent = state.users.length;
+  document.getElementById('statBookable').textContent = state.bookables.length;
+  document.getElementById('statBookings').textContent = state.bookings.length;
+  document.getElementById('countUsers').textContent = state.users.length;
+  document.getElementById('countBookable').textContent = state.bookables.length;
+  document.getElementById('countBookings').textContent = state.bookings.length;
+  renderRadarBlips();
+}
 
-    // ===== Удаление брони =====
-    window.deleteBooking = function(id) {
-        if (!confirm('Отменить бронирование?')) return;
-        bookings = bookings.filter(b => b.id !== id);
-        renderBookings();
-    };
+function renderRadarBlips(){
+  const radar = document.getElementById('radar');
+  radar.querySelectorAll('.blip').forEach(b=>b.remove());
+  const total = state.users.length + state.bookables.length + state.bookings.length;
+  const n = Math.min(total, 10);
+  for(let i=0;i<n;i++){
+    const angle = (i / Math.max(n,1)) * 2*Math.PI + i;
+    const r = 30 + (i%3)*18;
+    const x = 50 + Math.cos(angle)*r*0.35;
+    const y = 50 + Math.sin(angle)*r*0.35;
+    const b = el(`<div class="blip" style="left:${x}%; top:${y}%;"></div>`);
+    radar.appendChild(b);
+  }
+}
 
-    // ===== Создание пользователя =====
-    document.getElementById('saveUserBtn').addEventListener('click', function() {
-        const name = document.getElementById('userName').value.trim();
-        const username = document.getElementById('userUsername').value.trim();
-        const email = document.getElementById('userEmail').value.trim();
-        if (!name || !username || !email) {
-            alert('Заполните все поля');
-            return;
-        }
-        users.push({ id: generateId(), name, username, email });
-        renderUsers();
-        document.getElementById('createUserModal').querySelector('.btn-close').click();
-        document.getElementById('userName').value = '';
-        document.getElementById('userUsername').value = '';
-        document.getElementById('userEmail').value = '';
+async function checkHealth(){
+  const pulse = document.getElementById('pulse');
+  const label = document.getElementById('pulseLabel');
+  try{
+    await fetch(API_BASE + '/booking', {method:'GET'});
+    pulse.className='pulse on'; label.textContent='API на 8080 отвечает';
+  }catch(e){
+    pulse.className='pulse off'; label.textContent='нет связи с API';
+  }
+}
+
+document.getElementById('form-user').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const body = {
+    typeOfPerson: document.getElementById('u-type').value,
+    balance: Number(document.getElementById('u-balance').value),
+    email: document.getElementById('u-email').value
+  };
+  try{
+    const user = await api('/user', {method:'POST', body:JSON.stringify(body)});
+    state.users.push(user);
+    showFeedback('fb-user', true, `Создан: ${user.userId}`);
+    document.getElementById('u-email').value='';
+    renderUsers(); fillBookingSelects(); updateStats();
+  }catch(err){ showFeedback('fb-user', false, err.message); }
+});
+
+function renderUsers(){
+  const box = document.getElementById('list-users');
+  if(!state.users.length){ box.innerHTML = '<div class="empty"><b>Пока пусто</b>POST /user ещё не вызывался</div>'; return; }
+  box.innerHTML=''; box.className='stub-list';
+  state.users.slice().reverse().forEach(u=>{
+    box.appendChild(el(`
+      <div class="stub">
+        <div class="stub-id">${short(u.userId)}</div>
+        <div class="stub-body">
+          <div class="stub-title">${u.email}</div>
+          <div class="stub-meta"><span>баланс <b>${u.balance}</b></span><span>броней <b>${u.countBooking ?? 0}</b></span></div>
+        </div>
+        <div class="stub-side"><span class="badge status-0">создан</span></div>
+      </div>`));
+  });
+}
+
+document.getElementById('form-bookable').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const body = {
+    type: document.getElementById('b-type').value,
+    hasBaggage: document.getElementById('b-baggage').checked,
+    withPet: document.getElementById('b-pet').checked
+  };
+  try{
+    const bookable = await api('/bookable', {method:'POST', body:JSON.stringify(body)});
+    state.bookables.push({...bookable, type: body.type});
+    showFeedback('fb-bookable', true, `Создан: ${bookable.bookableId}`);
+    renderBookable(); fillBookingSelects(); updateStats();
+  }catch(err){ showFeedback('fb-bookable', false, err.message); }
+});
+
+function renderBookable(){
+  const box = document.getElementById('list-bookable');
+  if(!state.bookables.length){ box.innerHTML = '<div class="empty"><b>Пока пусто</b>POST /bookable ещё не вызывался</div>'; return; }
+  box.innerHTML=''; box.className='stub-list';
+  state.bookables.slice().reverse().forEach(b=>{
+    box.appendChild(el(`
+      <div class="stub">
+        <div class="stub-id">${short(b.bookableId)}</div>
+        <div class="stub-body">
+          <div class="stub-title">${b.type}</div>
+          <div class="stub-meta"><span>багаж <b>${b.hasBaggage?'да':'нет'}</b></span><span>питомец <b>${b.withPet?'да':'нет'}</b></span></div>
+        </div>
+        <div class="stub-side"><span class="badge status-2">создан</span></div>
+      </div>`));
+  });
+}
+
+function fillBookingSelects(){
+  const uSel = document.getElementById('bk-user');
+  const bSel = document.getElementById('bk-bookable');
+  uSel.innerHTML = '<option value="">— выбери из списка —</option>' +
+    state.users.map(u=>`<option value="${u.userId}">${u.email} (${short(u.userId)})</option>`).join('');
+  bSel.innerHTML = '<option value="">— выбери из списка —</option>' +
+    state.bookables.map(b=>`<option value="${b.bookableId}">${b.type} (${short(b.bookableId)})</option>`).join('');
+}
+
+document.getElementById('form-booking').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const userId = document.getElementById('bk-user').value;
+  const bookableId = document.getElementById('bk-bookable').value;
+  if(!userId || !bookableId){ showFeedback('fb-booking', false, 'выбери пользователя и объект из списков'); return; }
+  try{
+    await api('/booking', {method:'POST', body:JSON.stringify({userId, bookableId})});
+    showFeedback('fb-booking', true, 'Бронь создана');
+    loadBookings();
+  }catch(err){ showFeedback('fb-booking', false, err.message); }
+});
+
+async function loadBookings(){
+  const box = document.getElementById('list-bookings');
+  try{
+    const list = await api('/booking', {method:'GET'});
+    state.bookings = Array.isArray(list) ? list : [];
+    updateStats();
+    if(!state.bookings.length){ box.innerHTML = '<div class="empty"><b>Броней нет</b>Создай первую слева</div>'; return; }
+    box.innerHTML=''; box.className='stub-list';
+    state.bookings.slice().reverse().forEach(bk=>{
+      const id = bk.id ?? bk.bookingId ?? '';
+      const status = bk.bookingStatus ?? bk.status ?? 0;
+      const price = bk.totalPriceOfTicket ?? bk.totalPrice ?? '—';
+      box.appendChild(el(`
+        <div class="stub">
+          <div class="stub-id">${short(String(id))}</div>
+          <div class="stub-body">
+            <div class="stub-title">Бронь ${short(String(id))}</div>
+            <div class="stub-meta"><span>цена <b>${price}</b></span><span>bookable <b>${short(bk.bookableId)}</b></span><span>user <b>${short(bk.userId)}</b></span></div>
+          </div>
+          <div class="stub-side">
+            <span class="badge status-${status}">статус ${status}</span>
+            <button class="cancel-btn" data-id="${id}">✕ отменить</button>
+          </div>
+        </div>`));
     });
-
-    // ===== Создание объекта =====
-    document.getElementById('saveBookableBtn').addEventListener('click', function() {
-        const name = document.getElementById('bookableName').value.trim();
-        const type = document.getElementById('bookableType').value;
-        if (!name) {
-            alert('Введите название объекта');
-            return;
-        }
-        bookables.push({ id: generateId(), name, type });
-        renderBookables();
-        document.getElementById('createBookableModal').querySelector('.btn-close').click();
-        document.getElementById('bookableName').value = '';
+    box.querySelectorAll('.cancel-btn').forEach(btn=>{
+      btn.addEventListener('click', async ()=>{
+        try{ await api('/booking/' + btn.dataset.id, {method:'DELETE'}); toast(true,'Бронь отменена'); loadBookings(); }
+        catch(err){ toast(false, err.message); }
+      });
     });
+  }catch(err){
+    box.innerHTML = `<div class="empty"><b>Ошибка загрузки</b>${err.message}</div>`;
+  }
+}
 
-    // ===== Создание бронирования =====
-    document.getElementById('saveBookingBtn').addEventListener('click', function() {
-        const userId = document.getElementById('bookingUserId').value.trim();
-        const bookableId = document.getElementById('bookingBookableId').value.trim();
-        if (!userId || !bookableId) {
-            alert('Заполните оба поля');
-            return;
-        }
-        const userExists = users.some(u => u.id === userId);
-        const bookableExists = bookables.some(b => b.id === bookableId);
-        if (!userExists || !bookableExists) {
-            alert('Пользователь или объект с таким ID не найден. Проверьте ID.');
-            return;
-        }
-        bookings.push({
-            id: generateId(),
-            userId,
-            bookableId,
-            status: 'Новое'
-        });
-        renderBookings();
-        document.getElementById('createBookingModal').querySelector('.btn-close').click();
-        document.getElementById('bookingUserId').value = '';
-        document.getElementById('bookingBookableId').value = '';
-    });
+document.getElementById('refresh-bookings').addEventListener('click', loadBookings);
 
-    // ===== Первая отрисовка =====
-    renderUsers();
-    renderBookables();
-    renderBookings();
-
-    // ===== Перерисовка при переключении вкладок =====
-    document.getElementById('users-tab').addEventListener('shown.bs.tab', renderUsers);
-    document.getElementById('bookables-tab').addEventListener('shown.bs.tab', renderBookables);
-    document.getElementById('bookings-tab').addEventListener('shown.bs.tab', renderBookings);
+checkHealth();
+loadBookings();
+updateStats();
 </script>
-
 </body>
 </html>
