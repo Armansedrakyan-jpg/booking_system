@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,5 +57,17 @@ public class BookableService {
             );
         }
         throw new EntityNotFoundException("not found bookable");
+    }
+    public List<BookableResponse> getAllBookables() {
+        List<Bookable> allBookables = bookableRepository.findAll();
+        List<BookableResponse> result = new ArrayList<>();
+        for (Bookable b : allBookables) {
+            result.add(new BookableResponse(
+                    b.isHasBaggage(),
+                    b.isWithPet(),
+                    b.getBookableId()
+            ));
+        }
+        return result;
     }
     }

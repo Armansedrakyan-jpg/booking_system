@@ -4,6 +4,7 @@ import com.example.booking_system2.users.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,6 +53,18 @@ public class UserService {
         }
          throw new EntityNotFoundException("user is not found");
     }
-
+    public List<UserResponse> getAllUsers() {
+        List<User> allUsers = userRepository.findAll();
+        List<UserResponse> result = new ArrayList<>();
+        for (User u : allUsers) {
+            result.add(new UserResponse(
+                    u.getUserId(),
+                    u.getEmail(),
+                    u.getCountBooking(),
+                    u.getBalance()
+            ));
+        }
+        return result;
+    }
     }
 

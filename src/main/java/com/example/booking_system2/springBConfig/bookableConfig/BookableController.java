@@ -28,5 +28,9 @@ public class BookableController {
            return ResponseEntity.status(HttpStatus.CREATED)
                    .body(bookableService.createBookable(bookableToCreate));
      }
+    @GetMapping
+    public List<BookableResponse> getAllBookables() {
+        return bookableService.getAllBookables();
+    }
 
 }

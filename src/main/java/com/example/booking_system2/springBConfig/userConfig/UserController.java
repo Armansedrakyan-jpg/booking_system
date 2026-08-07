@@ -28,4 +28,8 @@ public class UserController {
                    body(userService.createUser(userToCreate));
      }
 
+    @GetMapping
+    public List<UserResponse> getAllUsers() {
+        return userService.getAllUsers();
+    }
 }

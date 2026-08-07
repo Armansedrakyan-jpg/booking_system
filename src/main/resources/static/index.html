@@ -603,7 +603,29 @@ async function loadBookings(){
 
 document.getElementById('refresh-bookings').addEventListener('click', loadBookings);
 
+async function loadUsers(){
+  try{
+    const list = await api('/user', {method:'GET'});
+    state.users = Array.isArray(list) ? list : [];
+    renderUsers(); fillBookingSelects(); updateStats();
+  }catch(err){
+    document.getElementById('list-users').innerHTML = `<div class="empty"><b>Ошибка загрузки</b>${err.message}</div>`;
+  }
+}
+
+async function loadBookables(){
+  try{
+    const list = await api('/bookable', {method:'GET'});
+    state.bookables = Array.isArray(list) ? list : [];
+    renderBookable(); fillBookingSelects(); updateStats();
+  }catch(err){
+    document.getElementById('list-bookable').innerHTML = `<div class="empty"><b>Ошибка загрузки</b>${err.message}</div>`;
+  }
+}
+
 checkHealth();
+loadUsers();
+loadBookables();
 loadBookings();
 updateStats();
 </script>
