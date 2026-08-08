@@ -40,7 +40,6 @@ public class Booking {
     public Booking(UUID bookableId, UUID userId) {
         this.bookableId = bookableId;
         this.userId = userId;
-        this.id = UUID.randomUUID();
         this.bookingStatus = BookingStatus.ACTIVE;
         this.createdAt = LocalDate.now();
     }
